@@ -5,10 +5,16 @@ using TestProject1.PageObjects.Bookingcom;
 
 namespace TestProject1
 {
+        /*
+         * Test to check can't be implemented because for it realization need
+         * email where need to get a link to SingIn on Booking
+         */
     public class Tests
     {
         private IWebDriver _webDriver;
-
+        
+        private MainPageObject _mainPageObject;
+        
         
 
 
@@ -19,21 +25,19 @@ namespace TestProject1
             _webDriver.Navigate().GoToUrl(BookingTestData.Url);
             _webDriver.Manage().Window.Maximize();
 
+            _mainPageObject = new MainPageObject(_webDriver);
         }
 
-        
         [Test]
         public void ChangelanguageTest()
         {
-            var mainPage = new MainPageObject(_webDriver);
+            var defaultLaguage = _mainPageObject.GetPageLaguage();
 
-            var defaultLaguage = mainPage.GetPageLaguage();
-            
-            mainPage
+            _mainPageObject
                 .PushChangeLanguageButton()
                 .ClichOnRuLanguageButton();
 
-            var swichedLanguage = mainPage.GetPageLaguage();
+            var swichedLanguage = _mainPageObject.GetPageLaguage();
 
             Assert.AreNotEqual(defaultLaguage, swichedLanguage);
         }
@@ -41,18 +45,23 @@ namespace TestProject1
         [Test]
         public void ChangeCashValue()
         {
-            var mainPage = new MainPageObject(_webDriver);
 
-            var defaultCashValue = mainPage.GetCashValue();
+            var defaultCashValue = _mainPageObject.GetCashValue();
 
-            mainPage
+            _mainPageObject
                 .PushCashValueButton()
                 .SwichToEuroCash();
 
-            var swichedCashValue = mainPage.GetCashValue();
+            var swichedCashValue = _mainPageObject.GetCashValue();
 
 
             Assert.AreNotEqual(defaultCashValue, swichedCashValue);
+        }
+
+        [Test]
+        public void FiltestTest()
+        {
+
         }
 
         [TearDown]
